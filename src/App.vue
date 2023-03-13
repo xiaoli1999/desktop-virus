@@ -8,39 +8,39 @@
     </main>
     <footer>
         <div class="f-left">
-            <img class="f-left-w" src="https://cdn.xiaoli.vip/img/desktop-virus/windows.png" alt="开始" title="开始">
+            <img class="f-left-w" src="https://cdn.xiaoli.vip/img/desktop-virus/windows.png" alt="开始" title="开始" @click="handelApp(0)">
             <img class="footer-line" src="https://cdn.xiaoli.vip/img/desktop-virus/line.png" alt="">
         </div>
         <div class="f-content">
-            <div v-for="(item, index) in openAppList" :key="index" :class="index === openAppList.length - 1 ? 'active' : ''">
+            <div v-for="(item, index) in openAppList" :key="index" :class="index === openAppList.length - 1 ? 'active' : ''" @click="handelApp(index)">
                 <img :src="item.img" alt="">
             </div>
         </div>
         <div class="f-right">
             <img class="footer-line" src="https://cdn.xiaoli.vip/img/desktop-virus/line.png" alt="">
-            <div class="f-right-arrow footer-bg" title="显示隐藏的图标">
+            <div class="f-right-arrow footer-bg" title="显示隐藏的图标" @click="handelApp(4)">
                 <img src="https://cdn.xiaoli.vip/img/desktop-virus/arrow-top.png" alt="">
             </div>
-            <div class="f-right-wx footer-bg" title="微信">
+            <div class="f-right-wx footer-bg" title="微信" @click="handelApp(4)">
                 <img src="https://cdn.xiaoli.vip/img/desktop-virus/wx.png" alt="">
             </div>
-            <div class="f-right-vol footer-bg" title="音量" >
+            <div class="f-right-vol footer-bg" title="音量" @click="handelApp(2)">
                 <img class="f-right-vol" src="https://cdn.xiaoli.vip/img/desktop-virus/vol.png" alt="">
             </div>
-            <div class="f-right-z footer-bg" title="中/英文">中</div>
-            <div class="f-right-sg footer-bg" title="搜狗拼音输入法" >
+            <div class="f-right-z footer-bg" title="中/英文" @click="handelApp(5)">中</div>
+            <div class="f-right-sg footer-bg" title="搜狗拼音输入法" @click="handelApp(5)">
                 <img src="https://cdn.xiaoli.vip/img/desktop-virus/sougou.png" alt="">
             </div>
             <div class="f-right-time footer-bg" :title="dateData.week">
                 <span>{{ `${ dateData.h }:${ dateData.m }:${ dateData.s }` }}</span>
                 <span>{{ `${ dateData.year }/${ dateData.month }/${ dateData.day }` }}</span>
             </div>
-            <div class="f-right-msg footer-bg" title="没有新通知" >
+            <div class="f-right-msg footer-bg" title="没有新通知" @click="handelApp(1)">
                 <img class="f-right-msg" src="https://cdn.xiaoli.vip/img/desktop-virus/msg.png" alt="">
             </div>
         </div>
     </footer>
-    <img class="sg" src="https://cdn.xiaoli.vip/img/desktop-virus/sg.png" alt="" />
+    <img class="sg" src="https://cdn.xiaoli.vip/img/desktop-virus/sg.png" alt="" @click="handelApp(5)" />
 </template>
 
 <script lang="ts" setup>
@@ -68,7 +68,7 @@ const createVirus = (item) => {
     const virus = document.createElement('div')
     console.log(innerSize.w)
     const leftRange = innerSize.w > 500 ? [8, innerSize.w - 368] : [4, innerSize.w - 220]
-    const topRange = innerSize.w > 500 ? [8, innerSize.h - 184] : [4, innerSize.h - 110]
+    const topRange = innerSize.w > 500 ? [8, innerSize.h - 232] : [4, innerSize.h - 140]
     const left = leftRange[0] + Math.round(Math.random() * leftRange[1])
     const top = topRange[0] + Math.round(Math.random() * topRange[1])
 
@@ -103,13 +103,18 @@ const handelApp = (i = 0) => {
     clearInterval(virusTimer)
 
     virusTimer = setInterval(() =>  {
-        if (num % 5 === 0) {
-            startVirus(item)
-        }
+        /* 处理桌面、控制栏图标 */
         if (num < 200) {
             appList.value.push(item)
             openAppList.value.push(item)
         }
+
+        /* 弹出警告弹窗 */
+        if (num > 60) {
+            startVirus(item)
+        }
+
+        /* 清除定时器 */
         if (num >= 300) clearInterval(virusTimer)
         num++
     }, 10)
@@ -147,14 +152,17 @@ let dateTimer: any = null
 const dateData = ref({ year: 2023, month: 3, day: 13, week: '', h: '00', m: '00', s: '00' })
 const setDate = () => {
     clearInterval(dateTimer)
-    dateTimer = setInterval(() =>  dateData.value = getDate(), 1e3)
+    dateTimer = setInterval(() => {
+        /* 获取设备尺寸 */
+        innerSize = getInnerSize()
+
+        /* 设置日期时间 */
+        dateData.value = getDate()
+    }, 1e3)
 }
 
 onMounted(() => {
-    /* 设备尺寸*/
-    innerSize = getInnerSize()
-
-    /* 日期时间 */
+    /* 日期时间、设备尺寸 */
     dateData.value = getDate()
     setDate()
 
@@ -452,6 +460,8 @@ footer {
 }
 
 @media only screen and (max-width: 500px) {
+    h2,
+    footer,
     .virus {
         transform: scale(.6);
     }

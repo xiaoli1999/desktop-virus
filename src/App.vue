@@ -1,5 +1,5 @@
 <template>
-    <h2>欢迎来到采黎桌面</h2>
+    <h3>欢迎来到采黎桌面</h3>
     <main>
         <div v-for="(item, index) in appList" :key="index" class="main" :title="item.desc" @click="handelApp(index)">
             <img :src="item.img" alt="">
@@ -66,9 +66,8 @@ let virusTimer: any = null
 
 const createVirus = (item) => {
     const virus = document.createElement('div')
-    console.log(innerSize.w)
-    const leftRange = innerSize.w > 500 ? [8, innerSize.w - 368] : [4, innerSize.w - 220]
-    const topRange = innerSize.w > 500 ? [8, innerSize.h - 232] : [4, innerSize.h - 140]
+    const leftRange = innerSize.w > 500 ? [8, innerSize.w - 368] : [4, innerSize.w - 224]
+    const topRange = innerSize.w > 500 ? [48, innerSize.h - 280] : [48, innerSize.h - 212]
     const left = leftRange[0] + Math.round(Math.random() * leftRange[1])
     const top = topRange[0] + Math.round(Math.random() * topRange[1])
 
@@ -183,7 +182,7 @@ console.log('%c 整蛊桌面🌈 | 黎 | https://xiaoli1999.github.io/desktop-vi
     align-items: center;
 }
 
-h2 {
+h3 {
     padding: 24px 0;
     color: #f2f4fa;
     text-align: center;
@@ -414,12 +413,12 @@ footer {
     width: 360px;
     height: 176px;
     background: #fff;
-    //border: 1px solid #000;
     box-shadow: 4px 4px 8px 1px #00000048;
     border-radius: 2px;
     overflow: hidden;
 
     .virus-title {
+        box-sizing: border-box;
         height: 42px;
         line-height: 42px;
         padding: 0 8px;
@@ -434,6 +433,7 @@ footer {
         font-size: 14px;
         color: red;
         font-weight: 600;
+        background: #fff;
 
         > img {
             width: 24px;
@@ -460,10 +460,67 @@ footer {
 }
 
 @media only screen and (max-width: 500px) {
-    h2,
-    footer,
+    main {
+        font-size: 12px;
+        padding: 0 8px;
+
+        .main {
+            width: 70px;
+            padding: 3px;
+
+            > img {
+                width: 32px;
+                height: 32px;
+            }
+
+            > div {
+                line-height: 24px;
+            }
+
+
+        }
+    }
+
+    .sg {
+        position: fixed;
+        width: 88px;
+        bottom: 68px;
+        right: 20px;
+    }
+
     .virus {
-        transform: scale(.6);
+        width: 216px;
+        height: 106px;
+
+        .virus-title {
+            height: 24px;
+            line-height: 24px;
+            padding: 0 4px;
+            font-size: 14px;
+        }
+
+        .virus-desc {
+            height: 54px;
+            padding: 0 4px;
+            font-size: 12px;
+            line-height: 18px;
+
+            > img {
+                width: 14px;
+                margin-right: 8px;
+            }
+        }
+
+        .virus-panel {
+            height: 28px;
+
+            > div {
+                padding: 3px 6px;
+                font-size: 12px;
+                box-shadow: 1px 1px 4px 1px #666;
+                margin-right: 8px;
+            }
+        }
     }
 }
 </style>

@@ -1,5 +1,8 @@
 <template>
-    <h3>欢迎来到采黎桌面</h3>
+    <div :class="showMask ? 'mask active' : 'mask'">
+        <div class="mask-loading"></div>
+    </div>
+    <h3 :class="showMask ? '' : 'active'">欢迎来到采黎桌面</h3>
     <main>
         <div v-for="(item, index) in appList" :key="index" class="main" :title="item.desc" @click="handelApp(index)">
             <img :src="item.img" alt="">
@@ -41,6 +44,17 @@
         </div>
     </footer>
     <img class="sg" src="https://cdn.xiaoli.vip/img/desktop-virus/sg.png" alt="" @click="handelApp(5)" />
+    <div id="virusList"></div>
+    <div :class="showDialog ? 'dialog active' : 'dialog'">
+        <div class="dialog-content">
+            <div class="dialog-title">采黎有言</div>
+            <div class="dialog-desc">
+                愿大家在工作之余能些许放松，劳逸结合。<br />
+                提前祝大家愚人节快乐，<b>一键点赞+收藏！</b> <br />
+                桌面会在3s后恢复正常哦。
+            </div>
+        </div>
+    </div>
 </template>
 
 <script lang="ts" setup>
@@ -49,6 +63,8 @@ import { ref, onMounted } from 'vue'
 let innerSize: { w: number, h: number } = { w: 0, h: 0 }
 const getInnerSize = () => ({ w: window.innerWidth, h: window.innerHeight })
 
+const showMask = ref(true)
+const loaded = () => setTimeout(() => showMask.value = false, 2400)
 
 const appList = ref<{ name: string, img: string, desc: string }[]>([
     { name: 'Chrome', desc: 'Google chrome', img: 'https://cdn.xiaoli.vip/img/desktop-virus/chrome.png' },
@@ -63,11 +79,12 @@ const openAppList = ref(appList.value.slice(0, 2))
 
 let isClicked = false
 let virusTimer: any = null
+const showDialog = ref(false)
 
 const createVirus = (item) => {
     const virus = document.createElement('div')
     const leftRange = innerSize.w > 500 ? [8, innerSize.w - 368] : [4, innerSize.w - 224]
-    const topRange = innerSize.w > 500 ? [48, innerSize.h - 280] : [48, innerSize.h - 212]
+    const topRange = innerSize.w > 500 ? [52, innerSize.h - 284] : [52, innerSize.h - 216]
     const left = leftRange[0] + Math.round(Math.random() * leftRange[1])
     const top = topRange[0] + Math.round(Math.random() * topRange[1])
 
@@ -90,7 +107,8 @@ const createVirus = (item) => {
 }
 const startVirus = (item) => {
     const virus = createVirus(item)
-    document.body.append(virus)
+    const virusList: any = document.getElementById('virusList')
+    virusList.append(virus)
 }
 
 const handelApp = (i = 0) => {
@@ -114,12 +132,26 @@ const handelApp = (i = 0) => {
         }
 
         /* 清除定时器 */
-        if (num >= 300) clearInterval(virusTimer)
+        if (num >= 340) {
+            clearInterval(virusTimer)
+            setTimeout(() => showDialog.value = true, 2000)
+            setTimeout(() => {
+                showDialog.value = false
+
+                /* 清除dom */
+                const virusList: any = document.getElementById('virusList')
+                virusList.innerHTML = ''
+                appList.value = appList.value.slice(0, 6)
+                openAppList.value = openAppList.value.slice(0, 2)
+
+                /* 开启点击 */
+                isClicked = false
+            }, 8000)
+        }
         num++
     }, 10)
 
 }
-
 
 
 /**
@@ -161,10 +193,12 @@ const setDate = () => {
 }
 
 onMounted(() => {
+    /* 初始化加载 */
+    loaded()
+
     /* 日期时间、设备尺寸 */
     dateData.value = getDate()
     setDate()
-
 })
 console.log('%c 整蛊桌面🌈 | 黎 | https://xiaoli1999.github.io/desktop-virus ', 'color: #f4f4f4;background: #444; padding:5px 0;border-radius:2px;')
 </script>
@@ -182,11 +216,56 @@ console.log('%c 整蛊桌面🌈 | 黎 | https://xiaoli1999.github.io/desktop-vi
     align-items: center;
 }
 
+.mask {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: -1;
+    opacity: 0;
+    background: #22222280;
+    backdrop-filter: blur(12px);
+    transition: all .88s linear;
+    .flex-center;
+
+    .mask-loading {
+        width: 48px;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        margin: 12px;
+        background:
+                radial-gradient(farthest-side,#f4f4f4 94%,#0000) top/6px 6px no-repeat,
+                conic-gradient(#0000 30%,#f4f4f4);
+        -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 6px), #000 0);
+        animation: loading 1s infinite linear;
+    }
+
+    &.active {
+        opacity: 1;
+        z-index: 1000;
+    }
+}
+
+@keyframes loading {
+    to {
+        rotate: 1turn;
+    }
+}
+
 h3 {
     padding: 24px 0;
-    color: #f2f4fa;
+    color: #f4f7fa;
+    font-size: 24px;
     text-align: center;
     letter-spacing: 2px;
+    transition: all .24s linear;
+    transform: translateY(-68px);
+    font-family: fangsong, sans-serif;
+
+    &.active {
+        transform: translateY(0);
+    }
 }
 
 main {
@@ -411,7 +490,7 @@ footer {
     position: fixed;
     z-index: 999;
     width: 360px;
-    height: 176px;
+    height: 174px;
     background: #fff;
     box-shadow: 4px 4px 8px 1px #00000048;
     border-radius: 2px;
@@ -456,6 +535,52 @@ footer {
             margin-right: 12px;
             border-radius: 1px;
         }
+    }
+}
+
+.dialog {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    background: transparent;
+    transition: all .24s linear;
+    transform: scale(0);
+    .flex-center;
+
+    .dialog-content {
+        width: 480px;
+        background: #fff;
+        padding: 8px 16px;
+        margin-bottom: 120px;
+        border-radius: 4px;
+        box-shadow: 1px 1px 8px #00000040;
+        letter-spacing: 1px;
+        transition: all .48s linear;
+
+        .dialog-title {
+            line-height: 42px;
+            font-size: 18px;
+            color: #000;
+        }
+
+        .dialog-desc {
+            padding: 0 8px;
+            font-size: 14px;
+            line-height: 20px;
+            color: #232323;
+
+            > b {
+                color: #1e80ff;
+            }
+        }
+    }
+
+    &.active {
+        background: #00000080;
+        transform: scale(1);
     }
 }
 
@@ -520,6 +645,15 @@ footer {
                 box-shadow: 1px 1px 4px 1px #666;
                 margin-right: 8px;
             }
+        }
+    }
+
+    .dialog {
+
+        .dialog-content {
+            width: 320px;
+            background: #fff;
+            padding: 8px;
         }
     }
 }

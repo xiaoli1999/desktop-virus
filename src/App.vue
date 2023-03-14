@@ -81,15 +81,20 @@ let isClicked = false
 let virusTimer: any = null
 const showDialog = ref(false)
 
+/**
+ * @function createVirus 创建病毒弹窗
+ * @param { Object } item
+ * @return { Object } virusElement 返回dom节点
+ */
 const createVirus = (item) => {
-    const virus = document.createElement('div')
+    const virusElement = document.createElement('div')
     const leftRange = innerSize.w > 500 ? [8, innerSize.w - 368] : [4, innerSize.w - 224]
     const topRange = innerSize.w > 500 ? [52, innerSize.h - 284] : [52, innerSize.h - 216]
     const left = leftRange[0] + Math.round(Math.random() * leftRange[1])
     const top = topRange[0] + Math.round(Math.random() * topRange[1])
 
-    virus.className = 'virus'
-    virus.innerHTML = `
+    virusElement.className = 'virus'
+    virusElement.innerHTML = `
         <div class="virus">
             <div class="virus-title">Microsoft unknown error</div>
             <div class="virus-desc">
@@ -101,9 +106,9 @@ const createVirus = (item) => {
             </div>
         </div>
     `
-    virus.style.left = left + 'px'
-    virus.style.top = top + 'px'
-    return virus
+    virusElement.style.left = left + 'px'
+    virusElement.style.top = top + 'px'
+    return virusElement
 }
 const startVirus = (item) => {
     const virus = createVirus(item)

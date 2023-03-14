@@ -1,3 +1,12 @@
+<!--
+  项目介绍
+  名称：前端桌面
+  版本: v0.1.0
+  体验：
+      1. 打开应用
+      2. 点赞＋收藏🙏🙏🙏
+ -->
+<!-- vue3、ts、less -->
 <template>
     <div :class="showMask ? 'mask active' : 'mask'">
         <div class="mask-loading"></div>
@@ -201,6 +210,9 @@ onMounted(() => {
     /* 初始化加载 */
     loaded()
 
+    /* 加载背景 */
+    document.body.style.background = '#2e2425 url("https://cdn.xiaoli.vip/img/desktop-virus/rise.jpg") no-repeat center'
+
     /* 日期时间、设备尺寸 */
     dateData.value = getDate()
     setDate()
@@ -229,19 +241,19 @@ console.log('%c 整蛊桌面🌈 | 黎 | https://xiaoli1999.github.io/desktop-vi
     top: 0;
     z-index: -1;
     opacity: 0;
-    background: #22222280;
-    backdrop-filter: blur(12px);
-    transition: all .88s linear;
+    background: #000000bb;
+    filter: blur(2px);
+    transition: all .68s linear;
     .flex-center;
 
     .mask-loading {
-        width: 48px;
+        width: 54px;
         aspect-ratio: 1;
         border-radius: 50%;
         margin: 12px;
         background:
-                radial-gradient(farthest-side,#f4f4f4 94%,#0000) top/6px 6px no-repeat,
-                conic-gradient(#0000 30%,#f4f4f4);
+                radial-gradient(farthest-side,#fff 94%,#0000) top/6px 6px no-repeat,
+                conic-gradient(#0000 30%, #fff);
         -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 6px), #000 0);
         animation: loading 1s infinite linear;
     }
@@ -264,7 +276,7 @@ h3 {
     font-size: 24px;
     text-align: center;
     letter-spacing: 2px;
-    transition: all .24s linear;
+    transition: all .68s linear;
     transform: translateY(-68px);
     font-family: fangsong, sans-serif;
 

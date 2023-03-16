@@ -1,58 +1,58 @@
 <!--
   项目介绍
-  名称：前端桌面
+  名称: 前端桌面
   版本: v0.1.0
-  体验：
+  体验:
       1. 打开应用
       2. 点赞＋收藏🙏🙏🙏
+  技术栈: vue3、ts、less
  -->
-<!-- vue3、ts、less -->
 <template>
     <div :class="showMask ? 'mask active' : 'mask'">
-        <div class="mask-loading"></div>
+        <div class="loading"></div>
     </div>
     <h3 :class="showMask ? '' : 'active'">欢迎来到采黎桌面</h3>
     <main>
-        <div v-for="(item, index) in appList" :key="index" class="main" :title="item.desc" @click="handelApp(index)">
+        <div v-for="(item, index) in appList" :key="index" class="main" :title="item.desc" @click="openApp(index)">
             <img :src="item.img" alt="">
             <div>{{ item.name }}</div>
         </div>
     </main>
     <footer>
         <div class="f-left">
-            <img class="f-left-w" src="https://cdn.xiaoli.vip/img/desktop-virus/windows.png" alt="开始" title="开始" @click="handelApp(0)">
+            <img class="f-left-w" src="https://cdn.xiaoli.vip/img/desktop-virus/windows.png" alt="开始" title="开始" @click="openApp(0)">
             <img class="footer-line" src="https://cdn.xiaoli.vip/img/desktop-virus/line.png" alt="">
         </div>
         <div class="f-content">
-            <div v-for="(item, index) in openAppList" :key="index" :class="index === openAppList.length - 1 ? 'active' : ''" @click="handelApp(index)">
+            <div v-for="(item, index) in openAppList" :key="index" :class="index === openAppList.length - 1 ? 'active' : ''" @click="openApp(index)">
                 <img :src="item.img" alt="">
             </div>
         </div>
         <div class="f-right">
             <img class="footer-line" src="https://cdn.xiaoli.vip/img/desktop-virus/line.png" alt="">
-            <div class="f-right-arrow footer-bg" title="显示隐藏的图标" @click="handelApp(4)">
+            <div class="f-right-arrow footer-bg" title="显示隐藏的图标" @click="openApp(4)">
                 <img src="https://cdn.xiaoli.vip/img/desktop-virus/arrow-top.png" alt="">
             </div>
-            <div class="f-right-wx footer-bg" title="微信" @click="handelApp(4)">
+            <div class="f-right-wx footer-bg" title="微信" @click="openApp(4)">
                 <img src="https://cdn.xiaoli.vip/img/desktop-virus/wx.png" alt="">
             </div>
-            <div class="f-right-vol footer-bg" title="音量" @click="handelApp(2)">
+            <div class="f-right-vol footer-bg" title="音量" @click="openApp(2)">
                 <img class="f-right-vol" src="https://cdn.xiaoli.vip/img/desktop-virus/vol.png" alt="">
             </div>
-            <div class="f-right-z footer-bg" title="中/英文" @click="handelApp(5)">中</div>
-            <div class="f-right-sg footer-bg" title="搜狗拼音输入法" @click="handelApp(5)">
+            <div class="f-right-z footer-bg" title="中/英文" @click="openApp(5)">中</div>
+            <div class="f-right-sg footer-bg" title="搜狗拼音输入法" @click="openApp(5)">
                 <img src="https://cdn.xiaoli.vip/img/desktop-virus/sougou.png" alt="">
             </div>
             <div class="f-right-time footer-bg" :title="dateData.week">
                 <span>{{ `${ dateData.h }:${ dateData.m }:${ dateData.s }` }}</span>
                 <span>{{ `${ dateData.year }/${ dateData.month }/${ dateData.day }` }}</span>
             </div>
-            <div class="f-right-msg footer-bg" title="没有新通知" @click="handelApp(1)">
+            <div class="f-right-msg footer-bg" title="没有新通知" @click="openApp(1)">
                 <img class="f-right-msg" src="https://cdn.xiaoli.vip/img/desktop-virus/msg.png" alt="">
             </div>
         </div>
     </footer>
-    <img class="sg" src="https://cdn.xiaoli.vip/img/desktop-virus/sg.png" alt="" @click="handelApp(5)" />
+    <img class="sg" src="https://cdn.xiaoli.vip/img/desktop-virus/sg.png" alt="" @click="openApp(5)" />
     <div id="virusList"></div>
     <div :class="showDialog ? 'dialog active' : 'dialog'">
         <div class="dialog-content">
@@ -64,6 +64,11 @@
             </div>
         </div>
     </div>
+    <template v-if="appSrc">
+        <img :src="appSrc" :class="openAppLoading ? 'open-app active' : 'open-app'" alt="" @click="handelApp">
+        <div v-show="openAppLoading" class="loading" :class="openAppLoading ? 'open-loading active' : 'open-loading'"></div>
+    </template>
+
 </template>
 
 <script lang="ts" setup>
@@ -75,16 +80,19 @@ const getInnerSize = () => ({ w: window.innerWidth, h: window.innerHeight })
 const showMask = ref(true)
 const loaded = () => setTimeout(() => showMask.value = false, 2400)
 
-const appList = ref<{ name: string, img: string, desc: string }[]>([
-    { name: 'Chrome', desc: 'Google chrome', img: 'https://cdn.xiaoli.vip/img/desktop-virus/chrome.png' },
-    { name: 'WebStorm', desc: 'WebStorm 2022.3.2', img: 'https://cdn.xiaoli.vip/img/desktop-virus/Webstorm.png' },
-    { name: 'Vscode', desc: 'Visual Studio Code', img: 'https://cdn.xiaoli.vip/img/desktop-virus/vscode.png' },
-    { name: 'HBuilderX', desc: 'HBuilderX', img: 'https://cdn.xiaoli.vip/img/desktop-virus/HBuilder.png' },
-    { name: '微信', desc: '微信', img: 'https://cdn.xiaoli.vip/img/desktop-virus/wx.png' },
-    { name: '搜狗输入法', desc: '搜狗输入法', img: 'https://cdn.xiaoli.vip/img/desktop-virus/sougou.png' }
+const appList = ref<{ name: string, img: string, desc: string, app: string }[]>([
+    { name: 'Chrome', desc: 'Google chrome', img: 'https://cdn.xiaoli.vip/img/desktop-virus/chrome.png', app: 'https://cdn.xiaoli.vip/img/desktop-virus/app/chrome.jpeg' },
+    { name: 'WebStorm', desc: 'WebStorm 2022.3.2', img: 'https://cdn.xiaoli.vip/img/desktop-virus/Webstorm.png', app: 'https://cdn.xiaoli.vip/img/desktop-virus/app/Webstorm.jpg' },
+    { name: 'Vscode', desc: 'Visual Studio Code', img: 'https://cdn.xiaoli.vip/img/desktop-virus/vscode.png', app: 'https://cdn.xiaoli.vip/img/desktop-virus/app/vscode.jpg' },
+    { name: 'HBuilderX', desc: 'HBuilderX', img: 'https://cdn.xiaoli.vip/img/desktop-virus/HBuilder.png', app: 'https://cdn.xiaoli.vip/img/desktop-virus/app/HBuilder.jpg' },
+    { name: '微信', desc: '微信', img: 'https://cdn.xiaoli.vip/img/desktop-virus/wx.png', app: 'https://cdn.xiaoli.vip/img/desktop-virus/app/wx.png' },
+    { name: '搜狗输入法', desc: '搜狗输入法', img: 'https://cdn.xiaoli.vip/img/desktop-virus/sougou.png', app: 'https://cdn.xiaoli.vip/img/desktop-virus/app/sougou.jpeg' }
 ])
 
 const openAppList = ref(appList.value.slice(0, 2))
+const appSrc = ref('')
+const openAppLoading = ref(false)
+const currentIndex = ref(0)
 
 let isClicked = false
 let virusTimer: any = null
@@ -125,11 +133,23 @@ const startVirus = (item) => {
     virusList.append(virus)
 }
 
-const handelApp = (i = 0) => {
-    if (isClicked) return
+const openApp = (i = 0) => {
+    currentIndex.value = i
+    const item = appList.value[i]
+
+    appSrc.value = item.app
+    openAppLoading.value = true
+
+    setTimeout(() => openAppLoading.value = false, 1600)
+}
+
+const handelApp = () => {
+    if (isClicked || openAppLoading.value) return
 
     isClicked = true
-    const item = appList.value[i]
+
+    const item = appList.value[currentIndex.value]
+
     let num = 0
     clearInterval(virusTimer)
 
@@ -148,7 +168,7 @@ const handelApp = (i = 0) => {
         /* 清除定时器 */
         if (num >= 340) {
             clearInterval(virusTimer)
-            setTimeout(() => showDialog.value = true, 2000)
+            setTimeout(() => showDialog.value = true, 1600)
             setTimeout(() => {
                 showDialog.value = false
 
@@ -158,9 +178,12 @@ const handelApp = (i = 0) => {
                 appList.value = appList.value.slice(0, 6)
                 openAppList.value = openAppList.value.slice(0, 2)
 
+                /* 关闭应用 */
+                appSrc.value = ''
+
                 /* 开启点击 */
                 isClicked = false
-            }, 8000)
+            }, 7600)
         }
         num++
     }, 10)
@@ -246,22 +269,22 @@ console.log('%c 整蛊桌面🌈 | 黎 | https://xiaoli1999.github.io/desktop-vi
     transition: all .68s linear;
     .flex-center;
 
-    .mask-loading {
-        width: 54px;
-        aspect-ratio: 1;
-        border-radius: 50%;
-        margin: 12px;
-        background:
-                radial-gradient(farthest-side,#fff 94%,#0000) top/6px 6px no-repeat,
-                conic-gradient(#0000 30%, #fff);
-        -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 6px), #000 0);
-        animation: loading 1s infinite linear;
-    }
-
     &.active {
         opacity: 1;
         z-index: 1000;
     }
+}
+
+.loading {
+    width: 54px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    margin: 12px;
+    background:
+            radial-gradient(farthest-side,#fff 94%,#0000) top/6px 6px no-repeat,
+            conic-gradient(#0000 30%, #fff);
+    -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 6px), #000 0);
+    animation: loading 1s infinite linear;
 }
 
 @keyframes loading {
@@ -598,6 +621,47 @@ footer {
     &.active {
         background: #00000080;
         transform: scale(1);
+    }
+}
+
+.open-app {
+    position: fixed;
+    max-width: 80%;
+    max-height: 80%;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    border-radius: 8px;
+    box-shadow: 2px 2px 16px 2px #00000048;
+    transition: all .48s linear;
+    z-index: 100;
+
+    &.active {
+        background: #000000cc;
+        filter: blur(3px);
+    }
+}
+
+.open-loading {
+    .loading;
+
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    transition: all .48s linear;
+    background:
+            radial-gradient(farthest-side,#1e80ff 94%,#0000) top/6px 6px no-repeat,
+            conic-gradient(#0000 30%, #1e80ff);
+    -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 6px), #000 0);
+    z-index: 100;
+
+    &.active {
+        filter: blur(3px);
     }
 }
 

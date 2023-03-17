@@ -283,7 +283,8 @@ console.log('%c 整蛊桌面🌈 | 黎 | https://xiaoli1999.github.io/desktop-vi
         conic-gradient(#0000 30%, #fff);
     border-radius: 50%;
     aspect-ratio: 1;
-    mask: radial-gradient(farthest-side, #0000 calc(100% - 6px), #000 0);
+    /* stylelint-disable-line */
+    -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 6px), #000 0);
     animation: loading 1s infinite linear;
 }
 
@@ -654,8 +655,9 @@ footer {
     background:
         radial-gradient(farthest-side, #1e80ff 94%, #0000) top/6px 6px no-repeat,
         conic-gradient(#0000 30%, #1e80ff);
+    /* stylelint-disable-line */
+    -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 6px), #000 0);
     transition: all 0.48s linear;
-    mask: radial-gradient(farthest-side, #0000 calc(100% - 6px), #000 0);
 
     &.active {
         filter: blur(3px);

@@ -247,7 +247,7 @@ console.log('%c 整蛊桌面🌈 | 黎 | https://xiaoli1999.github.io/desktop-vi
 //底部高亮 #655653
 
 .transition {
-    transition: all .12s;
+    transition: all 0.12s;
 }
 
 .flex-center {
@@ -258,32 +258,32 @@ console.log('%c 整蛊桌面🌈 | 黎 | https://xiaoli1999.github.io/desktop-vi
 
 .mask {
     position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
     width: 100%;
     height: 100%;
-    left: 0;
-    top: 0;
-    z-index: -1;
+    background: #000b;
     opacity: 0;
-    background: #000000bb;
     filter: blur(2px);
-    transition: all .68s linear;
+    transition: all 0.68s linear;
     .flex-center;
 
     &.active {
-        opacity: 1;
         z-index: 1000;
+        opacity: 1;
     }
 }
 
 .loading {
-    width: 54px;
-    aspect-ratio: 1;
-    border-radius: 50%;
     margin: 12px;
+    width: 54px;
     background:
-            radial-gradient(farthest-side,#fff 94%,#0000) top/6px 6px no-repeat,
-            conic-gradient(#0000 30%, #fff);
-    -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 6px), #000 0);
+        radial-gradient(farthest-side, #fff 94%, #0000) top/6px 6px no-repeat,
+        conic-gradient(#0000 30%, #fff);
+    border-radius: 50%;
+    aspect-ratio: 1;
+    mask: radial-gradient(farthest-side, #0000 calc(100% - 6px), #000 0);
     animation: loading 1s infinite linear;
 }
 
@@ -295,13 +295,13 @@ console.log('%c 整蛊桌面🌈 | 黎 | https://xiaoli1999.github.io/desktop-vi
 
 h3 {
     padding: 24px 0;
-    color: #f4f7fa;
     font-size: 24px;
-    text-align: center;
-    letter-spacing: 2px;
-    transition: all .68s linear;
-    transform: translateY(-68px);
     font-family: fangsong, sans-serif;
+    text-align: center;
+    color: #f4f7fa;
+    transition: all 0.68s linear;
+    letter-spacing: 2px;
+    transform: translateY(-68px);
 
     &.active {
         transform: translateY(0);
@@ -309,40 +309,38 @@ h3 {
 }
 
 main {
-    box-sizing: border-box;
-    width: 100%;
     display: flex;
-    flex-wrap: wrap;
+    padding: 0 12px;
+    width: 100%;
     font-size: 14px;
     color: #d5e3ef;
-    padding: 0 12px;
+    box-sizing: border-box;
+    flex-wrap: wrap;
 
     .main {
-        box-sizing: border-box;
-        width: 88px;
         padding: 4px;
+        width: 88px;
         border: 1px solid transparent;
+        box-sizing: border-box;
         .transition;
 
         &:hover {
             background: #6b81a780;
-            box-shadow: 0 0 2px #879bbc80;
             //border-radius: 2px;
             border: 1px solid #879bbc;
+            box-shadow: 0 0 2px #879bbc80;
         }
 
         > img {
+            margin: 0 auto;
             width: 36px;
             height: 36px;
-            margin: 0 auto;
         }
 
         > div {
             text-align: center;
             line-height: 28px;
         }
-
-
     }
 }
 
@@ -357,14 +355,14 @@ main {
 
 footer {
     position: fixed;
-    width: 100%;
-    height: 48px;
     bottom: 0;
     left: 0;
     z-index: 999;
-    background: #2e242560;
     display: flex;
     align-items: center;
+    width: 100%;
+    height: 48px;
+    background: #2e242560;
     backdrop-filter: blur(1px);
     .transition;
 
@@ -374,10 +372,10 @@ footer {
 
     .footer-line {
         position: relative;
+        top: 1px;
         width: 8px;
         height: 20px;
         cursor: w-resize;
-        top: 1px;
     }
 
     .f-left {
@@ -387,12 +385,12 @@ footer {
         padding: 0 12px;
 
         .f-left-w {
+            margin-right: 12px;
             width: 24px;
             height: 24px;
-            margin-right: 12px;
 
             &:hover {
-                opacity: .76;
+                opacity: 0.76;
             }
             .transition;
         }
@@ -433,8 +431,8 @@ footer {
         padding: 0 0 0 12px;
 
         .f-right-arrow {
-            height: 48px;
             margin-left: 12px;
+            height: 48px;
             .flex-center;
 
             > img {
@@ -458,9 +456,9 @@ footer {
 
             > img {
                 position: relative;
+                top: 1px;
                 width: 16px;
                 height: auto;
-                top: 1px;
             }
         }
 
@@ -469,7 +467,6 @@ footer {
             font-size: 15px;
             color: #fff;
             .flex-center;
-
         }
 
         .f-right-sg {
@@ -477,20 +474,20 @@ footer {
             .flex-center;
 
             > img {
+                margin: 0 8px;
                 width: 18px;
                 height: auto;
-                margin: 0 8px;
             }
         }
 
         .f-right-time {
-            height: 48px;
-            .flex-center;
-            flex-direction: column;
-            color: #f2f4fa;
-            font-size: 12px;
-            letter-spacing: 1px;
             padding: 0 12px;
+            height: 48px;
+            font-size: 12px;
+            color: #f2f4fa;
+            flex-direction: column;
+            letter-spacing: 1px;
+            .flex-center;
 
             > span {
                 display: block;
@@ -507,9 +504,9 @@ footer {
             .flex-center;
 
             > img {
+                margin: 0 8px;
                 width: 18px;
                 height: auto;
-                margin: 0 8px;
             }
         }
     }
@@ -517,31 +514,31 @@ footer {
 
 .sg {
     position: fixed;
-    width: 180px;
-    bottom: 88px;
     right: 60px;
+    bottom: 88px;
     z-index: 999;
+    width: 180px;
+    opacity: 0.9;
     mix-blend-mode: lighten;
-    opacity: .9;
     cursor: pointer;
 }
 
 .virus {
     position: fixed;
     z-index: 999;
+    overflow: hidden;
     width: 360px;
     height: 174px;
     background: #fff;
-    box-shadow: 4px 4px 8px 1px #00000048;
     border-radius: 2px;
-    overflow: hidden;
+    box-shadow: 4px 4px 8px 1px #00000048;
 
     .virus-title {
-        box-sizing: border-box;
-        height: 42px;
-        line-height: 42px;
         padding: 0 8px;
+        height: 42px;
         font-size: 18px;
+        box-sizing: border-box;
+        line-height: 42px;
         border-bottom: 1px solid #eee;
     }
 
@@ -555,50 +552,50 @@ footer {
         background: #fff;
 
         > img {
-            width: 24px;
             margin-right: 12px;
+            width: 24px;
         }
     }
 
     .virus-panel {
-        height: 48px;
         display: flex;
-        align-items: center;
         justify-content: flex-end;
+        align-items: center;
+        height: 48px;
         background: #e5e5e5;
 
         > div {
             padding: 4px 12px;
+            margin-right: 12px;
             font-size: 14px;
             background: #fff;
-            box-shadow: 1px 1px 4px 1px #666;
-            margin-right: 12px;
             border-radius: 1px;
+            box-shadow: 1px 1px 4px 1px #666;
         }
     }
 }
 
 .dialog {
     position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
     width: 100%;
     height: 100%;
-    left: 0;
-    top: 0;
-    z-index: 1000;
     background: transparent;
-    transition: all .24s linear;
+    transition: all 0.24s linear;
     transform: scale(0);
     .flex-center;
 
     .dialog-content {
-        width: 480px;
-        background: #fff;
         padding: 8px 16px;
         margin-bottom: 120px;
+        width: 480px;
+        background: #fff;
         border-radius: 4px;
         box-shadow: 1px 1px 8px #00000040;
+        transition: all 0.48s linear;
         letter-spacing: 1px;
-        transition: all .48s linear;
 
         .dialog-title {
             line-height: 42px;
@@ -626,20 +623,20 @@ footer {
 
 .open-app {
     position: fixed;
-    max-width: 80%;
-    max-height: 80%;
-    left: 0;
     top: 0;
-    bottom: 0;
     right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
     margin: auto;
+    max-width: 84%;
+    max-height: 84%;
     border-radius: 8px;
     box-shadow: 2px 2px 16px 2px #00000048;
-    transition: all .48s linear;
-    z-index: 100;
+    transition: all 0.48s linear;
 
     &.active {
-        background: #000000cc;
+        background: #000c;
         filter: blur(3px);
     }
 }
@@ -648,17 +645,17 @@ footer {
     .loading;
 
     position: fixed;
-    left: 0;
     top: 0;
-    bottom: 0;
     right: 0;
-    margin: auto;
-    transition: all .48s linear;
-    background:
-            radial-gradient(farthest-side,#1e80ff 94%,#0000) top/6px 6px no-repeat,
-            conic-gradient(#0000 30%, #1e80ff);
-    -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 6px), #000 0);
+    bottom: 0;
+    left: 0;
     z-index: 100;
+    margin: auto;
+    background:
+        radial-gradient(farthest-side, #1e80ff 94%, #0000) top/6px 6px no-repeat,
+        conic-gradient(#0000 30%, #1e80ff);
+    transition: all 0.48s linear;
+    mask: radial-gradient(farthest-side, #0000 calc(100% - 6px), #000 0);
 
     &.active {
         filter: blur(3px);
@@ -667,12 +664,12 @@ footer {
 
 @media only screen and (max-width: 500px) {
     main {
-        font-size: 12px;
         padding: 0 8px;
+        font-size: 12px;
 
         .main {
-            width: 70px;
             padding: 3px;
+            width: 70px;
 
             > img {
                 width: 32px;
@@ -682,16 +679,14 @@ footer {
             > div {
                 line-height: 24px;
             }
-
-
         }
     }
 
     .sg {
         position: fixed;
-        width: 88px;
-        bottom: 68px;
         right: 20px;
+        bottom: 68px;
+        width: 88px;
     }
 
     .virus {
@@ -699,21 +694,21 @@ footer {
         height: 106px;
 
         .virus-title {
-            height: 24px;
-            line-height: 24px;
             padding: 0 4px;
+            height: 24px;
             font-size: 14px;
+            line-height: 24px;
         }
 
         .virus-desc {
-            height: 54px;
             padding: 0 4px;
+            height: 54px;
             font-size: 12px;
             line-height: 18px;
 
             > img {
-                width: 14px;
                 margin-right: 8px;
+                width: 14px;
             }
         }
 
@@ -722,19 +717,18 @@ footer {
 
             > div {
                 padding: 3px 6px;
+                margin-right: 8px;
                 font-size: 12px;
                 box-shadow: 1px 1px 4px 1px #666;
-                margin-right: 8px;
             }
         }
     }
 
     .dialog {
-
         .dialog-content {
+            padding: 8px;
             width: 320px;
             background: #fff;
-            padding: 8px;
         }
     }
 }

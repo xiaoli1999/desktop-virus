@@ -8,5 +8,5 @@
 *.json
 /test/
 /dist/
-/rabbit/
+/desktop-virus
 /src/styles/normalize.less

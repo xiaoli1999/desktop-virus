@@ -176,7 +176,7 @@ const handelApp = () => {
                 /* 清除dom */
                 const virusList: any = document.getElementById('virusList')
                 virusList.innerHTML = ''
-                appList.value = appList.value.slice(0, appList.value.length - 1)
+                appList.value = appList.value.slice(0, 7)
                 openAppList.value = openAppList.value.slice(0, 2)
 
                 /* 关闭应用 */

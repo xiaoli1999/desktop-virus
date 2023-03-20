@@ -20,7 +20,7 @@
     </main>
     <footer>
         <div class="f-left">
-            <img class="f-left-w" src="https://cdn.xiaoli.vip/img/desktop-virus/windows.png" alt="开始" title="开始" @click="openApp(0)">
+            <img class="f-left-w" src="https://cdn.xiaoli.vip/img/desktop-virus/windows.png" alt="开始" title="开始" @click="openApp(6)">
             <img class="footer-line" src="https://cdn.xiaoli.vip/img/desktop-virus/line.png" alt="">
         </div>
         <div class="f-content">
@@ -86,7 +86,8 @@ const appList = ref<{ name: string, img: string, desc: string, app: string }[]>(
     { name: 'Vscode', desc: 'Visual Studio Code', img: 'https://cdn.xiaoli.vip/img/desktop-virus/vscode.png', app: 'https://cdn.xiaoli.vip/img/desktop-virus/app/vscode.jpg' },
     { name: 'HBuilderX', desc: 'HBuilderX', img: 'https://cdn.xiaoli.vip/img/desktop-virus/HBuilder.png', app: 'https://cdn.xiaoli.vip/img/desktop-virus/app/HBuilder.jpg' },
     { name: '微信', desc: '微信', img: 'https://cdn.xiaoli.vip/img/desktop-virus/wx.png', app: 'https://cdn.xiaoli.vip/img/desktop-virus/app/wx.png' },
-    { name: '搜狗输入法', desc: '搜狗输入法', img: 'https://cdn.xiaoli.vip/img/desktop-virus/sougou.png', app: 'https://cdn.xiaoli.vip/img/desktop-virus/app/sougou.jpeg' }
+    { name: '搜狗输入法', desc: '搜狗输入法', img: 'https://cdn.xiaoli.vip/img/desktop-virus/sougou.png', app: 'https://cdn.xiaoli.vip/img/desktop-virus/app/sougou.jpeg' },
+    { name: 'windows', desc: '搜狗输入法', img: 'https://cdn.xiaoli.vip/img/desktop-virus/windows.png', app: 'https://cdn.xiaoli.vip/img/desktop-virus/app/windows.jpg' }
 ])
 
 const openAppList = ref(appList.value.slice(0, 2))
@@ -175,7 +176,7 @@ const handelApp = () => {
                 /* 清除dom */
                 const virusList: any = document.getElementById('virusList')
                 virusList.innerHTML = ''
-                appList.value = appList.value.slice(0, 6)
+                appList.value = appList.value.slice(0, appList.value.length - 1)
                 openAppList.value = openAppList.value.slice(0, 2)
 
                 /* 关闭应用 */
@@ -244,8 +245,6 @@ console.log('%c 整蛊桌面🌈 | 黎 | https://xiaoli1999.github.io/desktop-vi
 </script>
 
 <style lang="less">
-//底部高亮 #655653
-
 .transition {
     transition: all 0.12s;
 }
@@ -254,6 +253,13 @@ console.log('%c 整蛊桌面🌈 | 黎 | https://xiaoli1999.github.io/desktop-vi
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.margin-center {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
 }
 
 .mask {
@@ -624,11 +630,9 @@ footer {
 
 .open-app {
     position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 100;
+
+    .margin-center;
+
     margin: auto;
     max-width: 84%;
     max-height: 84%;
@@ -644,12 +648,9 @@ footer {
 
 .open-loading {
     .loading;
+    .margin-center;
 
     position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
     z-index: 100;
     margin: auto;
     background:
@@ -658,6 +659,8 @@ footer {
     /* stylelint-disable-line */
     -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 6px), #000 0);
     transition: all 0.48s linear;
+
+
 
     &.active {
         filter: blur(3px);

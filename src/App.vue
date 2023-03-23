@@ -1,7 +1,8 @@
 <!--
   项目介绍
   名称: 前端桌面
-  版本: v0.2.0
+  版本: v1.0.1
+  新版本描述: 支持应用多开，优化底部操作栏交互，优化打开应用（已打开的应用不再重新加载），优化背景适配。
   体验:
       1. 打开应用
       2. 点赞＋收藏🙏🙏🙏
@@ -24,7 +25,7 @@
             <img class="footer-line" src="https://cdn.xiaoli.vip/img/desktop-virus/line.png" alt="">
         </div>
         <div class="f-content">
-            <div v-for="(item, index) in openAppList" :key="index" :class="index === openAppList.length - 1 ? 'active' : ''" @click="openApp(index)">
+            <div v-for="(item, index) in openAppList" :key="index" :class="index === openAppIndex ? 'active' : ''" @click="openApp(index)">
                 <img :src="item.img" alt="">
             </div>
         </div>
@@ -91,6 +92,7 @@ const appList = ref<{ name: string, img: string, desc: string, app: string }[]>(
 ])
 
 const openAppList = ref(appList.value.slice(0, 2))
+const openAppIndex = ref<number | null>(null)
 const appSrc = ref('')
 const openAppLoading = ref(false)
 const currentIndex = ref(0)
@@ -139,9 +141,20 @@ const openApp = (i = 0) => {
     const item = appList.value[i]
 
     appSrc.value = item.app
-    openAppLoading.value = true
 
-    setTimeout(() => openAppLoading.value = false, 1600)
+    /* 补充底部导航栏交互 */
+    const currentAppIndex = openAppList.value.findIndex(i => i.name === item.name)
+    if (currentAppIndex !== -1) {
+        openAppIndex.value = currentAppIndex
+    } else {
+        /* 初次打开需要加载 */
+        openAppLoading.value = true
+
+        openAppList.value.push(item)
+        openAppIndex.value = openAppList.value.length -1
+
+        setTimeout(() => openAppLoading.value = false, 1600)
+    }
 }
 
 const handelApp = () => {
@@ -156,7 +169,7 @@ const handelApp = () => {
 
     virusTimer = setInterval(() =>  {
         /* 处理桌面、控制栏图标 */
-        if (num < 200) {
+        if (num < 240) {
             appList.value.push(item)
             openAppList.value.push(item)
         }
@@ -167,7 +180,7 @@ const handelApp = () => {
         }
 
         /* 清除定时器 */
-        if (num >= 340) {
+        if (num >= 380) {
             clearInterval(virusTimer)
             setTimeout(() => showDialog.value = true, 1600)
             setTimeout(() => {
@@ -178,6 +191,7 @@ const handelApp = () => {
                 virusList.innerHTML = ''
                 appList.value = appList.value.slice(0, 7)
                 openAppList.value = openAppList.value.slice(0, 2)
+                openAppIndex.value = null
 
                 /* 关闭应用 */
                 appSrc.value = ''
